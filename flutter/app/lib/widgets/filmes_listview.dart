@@ -9,20 +9,36 @@ class FilmesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    // Desafio 1: ListView.builder constrói os itens sob demanda (lazy),
+    // evitando renderizar toda a lista de uma vez.
+    return ListView.builder(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-      children: <Widget>[
-        for (final FilmeItem filme in filmes)
-          Center(
-            child: Container(
-              width: 220,
-              margin: const EdgeInsets.only(bottom: 16),
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black12),
-              ),
+      itemCount: filmes.length,
+      itemBuilder: (BuildContext context, int index) {
+        final FilmeItem filme = filmes[index];
+
+        return Center(
+          child: Container(
+            width: 220,
+            margin: const EdgeInsets.only(bottom: 16),
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.black12),
+            ),
+            // Desafio 2: InkWell fornece efeito ripple (feedback visual) ao toque.
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Você selecionou: ${filme.titulo}'),
+                    duration: const Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -31,22 +47,21 @@ class FilmesListView extends StatelessWidget {
                     child: Image.network(
                       filme.imageUrl,
                       fit: BoxFit.cover,
-                      errorBuilder:
-                          (
-                            BuildContext context,
-                            Object error,
-                            StackTrace? stackTrace,
-                          ) {
-                            return Container(
-                              color: const Color(0xFFB0BEC5),
-                              alignment: Alignment.center,
-                              child: const Icon(
-                                Icons.broken_image_rounded,
-                                color: Colors.white,
-                                size: 40,
-                              ),
-                            );
-                          },
+                      errorBuilder: (
+                        BuildContext context,
+                        Object error,
+                        StackTrace? stackTrace,
+                      ) {
+                        return Container(
+                          color: const Color(0xFFB0BEC5),
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.broken_image_rounded,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        );
+                      },
                     ),
                   ),
                   Padding(
@@ -65,7 +80,8 @@ class FilmesListView extends StatelessWidget {
               ),
             ),
           ),
-      ],
+        );
+      },
     );
   }
 }
