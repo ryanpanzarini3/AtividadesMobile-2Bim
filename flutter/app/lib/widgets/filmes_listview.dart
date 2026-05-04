@@ -9,8 +9,8 @@ class FilmesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Desafio 1: ListView.builder constrói os itens sob demanda (lazy),
-    // evitando renderizar toda a lista de uma vez.
+    // Desafio 1
+   
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       itemCount: filmes.length,
@@ -27,7 +27,7 @@ class FilmesListView extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.black12),
             ),
-            // Desafio 2: InkWell fornece efeito ripple (feedback visual) ao toque.
+            // Desafio 2:
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
