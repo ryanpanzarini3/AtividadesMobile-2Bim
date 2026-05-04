@@ -109,7 +109,54 @@ class TelaPrincipalMovieApp extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            Expanded(flex: 4, child: FilmesListView(filmes: filmes)),
+            Expanded(
+              flex: 4,
+              child: FilmesListView(
+                filmes: filmes,
+                onTap: (filme) {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (_) => Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              filme.imageUrl,
+                              width: 80,
+                              height: 120,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => Container(
+                                width: 80,
+                                height: 120,
+                                color: const Color(0xFFB0BEC5),
+                                child: const Icon(Icons.broken_image_rounded,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              filme.titulo,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

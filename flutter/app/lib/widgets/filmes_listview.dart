@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import '../models/filme_item.dart';
 
 class FilmesListView extends StatelessWidget {
-  const FilmesListView({super.key, required this.filmes});
+  const FilmesListView({
+    super.key,
+    required this.filmes,
+    this.onTap,
+  });
 
   final List<FilmeItem> filmes;
+  final void Function(FilmeItem)? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +35,7 @@ class FilmesListView extends StatelessWidget {
             // Desafio 2:
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Você selecionou: ${filme.titulo}'),
-                    duration: const Duration(seconds: 2),
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              },
+              onTap: () => onTap?.call(filme),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
